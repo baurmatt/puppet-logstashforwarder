@@ -70,6 +70,11 @@ class logstashforwarder::repo {
         type        => 'yum'
       }
     }
+    'Gentoo': {
+      gentoo::packagekeywords { 'app-admin/logstash-forwarder':
+        keyword => '~amd64',
+      }
+    }
     default: {
       fail("\"${module_name}\" provides no repository information for OSfamily \"${::osfamily}\"")
     }

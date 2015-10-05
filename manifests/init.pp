@@ -63,6 +63,10 @@
 #   Path to directory containing the Logstash Forwarder configuration.
 #   Use this setting if your packages deviate from the norm (/etc/logstashforwarder)
 #
+# [*configfile*]
+#   Path to file containing the Logstash Forwarder configuration.
+#   Use this setting if your packages deviate from the norm (/etc/logstash-forwarder.conf)
+#
 # [*package_url*]
 #   Url to the package to download.
 #   This can be a http,https or ftp resource for remote packages
@@ -171,12 +175,13 @@ class logstashforwarder(
   $logstashforwarder_user  = $logstashforwarder::params::logstashforwarder_user,
   $logstashforwarder_group = $logstashforwarder::params::logstashforwarder_group,
   $configdir               = $logstashforwarder::params::configdir,
+  $configfile              = $logstashforwarder::params::configfile,
   $purge_configdir         = $logstashforwarder::params::purge_configdir,
   $service_provider        = 'init',
   $init_defaults           = $logstashforwarder::params::init_defaults,
   $init_defaults_file      = undef,
   $init_template           = undef,
-  $manage_repo             = false
+  $manage_repo             = false,
 ) inherits logstashforwarder::params {
 
   anchor {'logstashforwarder::begin': }
@@ -264,5 +269,4 @@ class logstashforwarder(
     -> Anchor['logstashforwarder::end']
 
   }
-
 }

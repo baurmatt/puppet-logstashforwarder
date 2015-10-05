@@ -87,14 +87,22 @@ class logstashforwarder::params {
   }
 
   # Different path definitions
-  case $::kernel {
-    'Linux': {
-      $configdir = '/etc/logstashforwarder'
+  case $::operatingsystem {
+    'Gentoo': {
+      $configdir   = '/etc/logstash-forwarder'
+      $configfile  = '/etc/logstash-forwarder/logstash-forwarder.conf'
+      $package_dir = '/opt/logstashforwarder/swdl'
+      $installpath = '/opt/logstashforwarder'
+    }
+    'RedHat', 'CentOS', 'Fedora', 'Scientific', 'Amazon', 'OracleLinux', 'Debian', 'Ubuntu': {
+      $configdir   = '/etc/logstashforwarder'
+      $configfile  = '/etc/logstash-forwarder.conf'
       $package_dir = '/opt/logstashforwarder/swdl'
       $installpath = '/opt/logstashforwarder'
     }
     'Darwin': {
-      $configdir = '/Library/Application Support/Logstashforwarder'
+      $configdir   = '/Library/Application Support/Logstashforwarder'
+      $configfile  = '/etc/logstash-forwarder.conf'
       $package_dir = '/Library/Logstashforwarder/swdl'
       $installpath = '/Library/Logstashforwarder'
     }
@@ -113,6 +121,10 @@ class logstashforwarder::params {
     'Debian', 'Ubuntu': {
       # main application
       $package = [ 'logstash-forwarder' ]
+    }
+    'Gentoo': {
+      # main application
+      $package = [ 'app-admin/logstash-forwarder' ]
     }
     default: {
       fail("\"${module_name}\" provides no package default value
@@ -145,6 +157,14 @@ class logstashforwarder::params {
       $service_pattern    = $service_name
       $service_providers  = [ 'launchd' ]
       $defaults_location  = false
+    }
+    'Gentoo': {
+      $service_name       = 'logstash-forwarder'
+      $service_hasrestart = true
+      $service_hasstatus  = true
+      $service_pattern    = $service_name
+      $service_providers  = [ 'gentoo' ]
+      $defaults_location  = '/etc/conf.d'
     }
     default: {
       fail("\"${module_name}\" provides no service parameters

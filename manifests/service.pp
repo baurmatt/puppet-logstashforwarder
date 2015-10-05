@@ -34,6 +34,10 @@ class logstashforwarder::service {
       logstashforwarder::service::init { $logstashforwarder::params::service_name:; }
     }
 
+    gentoo: {
+      logstashforwarder::service::gentoo { $logstashforwarder::params::service_name:; }
+    }
+
     default: {
       fail("Unknown service provider ${logstashforwarder::service_provider}")
     }
