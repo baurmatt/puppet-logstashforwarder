@@ -57,10 +57,14 @@ class logstashforwarder::params {
   #### Internal module values
 
   # User and Group for the files and user to run the service as.
-  case $::kernel {
-    'Linux': {
+  case $::operatingsystem {
+    'RedHat', 'CentOS', 'Fedora', 'Scientific', 'Amazon', 'OracleLinux', 'Debian', 'Ubuntu': {
       $logstashforwarder_user  = 'root'
       $logstashforwarder_group = 'root'
+    }
+    'Gentoo': {
+      $logstashforwarder_user  = 'logstash'
+      $logstashforwarder_group = 'logstash'
     }
     'Darwin': {
       $logstashforwarder_user  = 'root'
@@ -88,15 +92,15 @@ class logstashforwarder::params {
 
   # Different path definitions
   case $::operatingsystem {
-    'Gentoo': {
-      $configdir   = '/etc/logstash-forwarder'
-      $configfile  = '/etc/logstash-forwarder/logstash-forwarder.conf'
-      $package_dir = '/opt/logstashforwarder/swdl'
-      $installpath = '/opt/logstashforwarder'
-    }
     'RedHat', 'CentOS', 'Fedora', 'Scientific', 'Amazon', 'OracleLinux', 'Debian', 'Ubuntu': {
       $configdir   = '/etc/logstashforwarder'
       $configfile  = '/etc/logstash-forwarder.conf'
+      $package_dir = '/opt/logstashforwarder/swdl'
+      $installpath = '/opt/logstashforwarder'
+    }
+    'Gentoo': {
+      $configdir   = '/etc/logstash-forwarder'
+      $configfile  = '/etc/logstash-forwarder/logstash-forwarder.conf'
       $package_dir = '/opt/logstashforwarder/swdl'
       $installpath = '/opt/logstashforwarder'
     }
