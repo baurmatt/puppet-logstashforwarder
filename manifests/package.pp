@@ -139,7 +139,11 @@ class logstashforwarder::package {
 
     $pkg_source = undef
     $pkg_provider = undef
-    $package_ensure = 'purged'
+    if $::operatingsystem == 'Gentoo' {
+      $package_ensure = 'absent'
+    } else {
+      $package_ensure = 'purged'
+    }
   }
 
   case $logstashforwarder::package_provider {
